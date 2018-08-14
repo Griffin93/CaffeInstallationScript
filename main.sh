@@ -18,7 +18,7 @@ cd ..
 
 #Install FFmpeg
 wget https://www.ffmpeg.org/releases/ffmpeg-2.8.12.tar.gz
-tar -xzvf ffmepg-2.8.12.tar.gz
+tar -xzvf ffmpeg-2.8.12.tar.gz
 cd ffmpeg-2.8.12
 ./configure --enable-shared --enable-gpl --enable-swscale --prefix=$HOME/local
 make
