@@ -31,34 +31,11 @@ cd ..
 # Active cuda
 
 
-#Install opencv
-wget https://github.com/opencv/opencv/archive/2.4.13.tar.gz
-tar -xzvf 2.4.13.tar.gz
-cd opencv-2.4.13
-mkdir build
-cd build
-# specify g++ for cuda
-# specify gpu type
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=$HOME/local -D BUILD_opencv_gpu=OFF -DCUDA_HOST_COMPILER=/usr/bin/g++ -D CUDA_GENERATION=Kepler ..
-make -j32
-make install
-cd ..
-cd ..
-
 #安装gflags完成后，再安装glog。其它顺序随意
 #install gflags-1.7
 wget https://github.com/gflags/gflags/archive/v1.7.tar.gz
 tar -xzvf v1.7.tar.gz
 cd gflags-1.7
-./configure --prefix=$HOME/local
-make -j32
-make install
-cd ..
-
-#install glog 0.3.3
-wget https://github.com/google/glog/archive/v0.3.3.tar.gz
-tar -xzvf v0.3.3.tar.gz
-cd glog-0.3.3
 ./configure --prefix=$HOME/local
 make -j32
 make install
@@ -73,6 +50,36 @@ make
 make install
 cd ..
 
+# install pip
+mkdir pip
+wget https://bootstrap.pypa.io/get-pip.py
+
+#Install opencv
+wget https://github.com/opencv/opencv/archive/2.4.13.tar.gz
+tar -xzvf 2.4.13.tar.gz
+cd opencv-2.4.13
+mkdir build
+cd build
+# specify g++ for cuda
+# specify gpu type
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=$HOME/local -D BUILD_opencv_gpu=OFF -DCUDA_HOST_COMPILER=/usr/bin/g++ -D CUDA_GENERATION=Kepler ..
+make -j32
+make install
+cd ..
+cd ..
+
+
+#install glog 0.3.3
+wget https://github.com/google/glog/archive/v0.3.3.tar.gz
+tar -xzvf v0.3.3.tar.gz
+cd glog-0.3.3
+./configure --prefix=$HOME/local
+make -j32
+make install
+cd ..
+
+
+
 #install boost 1.55.0
 wget https://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.gz
 tar -xzvf boost_1_55_0.tar.gz
@@ -82,11 +89,20 @@ cd boost_1_55_0
 ./b2 install
 cd ..
 
-# install pip
-mkdir pip
-wget https://bootstrap.pypa.io/get-pip.py
 
 
-#install hdf5
+git clone --recursive git://github.com/xianyi/OpenBLAS
+cd OpenBLAS
+make FC=gfortran
+make PREFIX=$HOME/local install
 
 
+
+wget https://github.com/LMDB/lmdb/archive/LMDB_0.9.22.tar.gz
+tar -xzvf LMDB_0.9.22.tar.gz
+cd lmdb-LMDB_0.9.22
+cd mdb/libraries/liblmdb
+make
+mkdir $HOME/local/man
+mkdir $HOME/local/man/man1
+make prefix=$HOME/local install
